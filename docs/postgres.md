@@ -3,25 +3,25 @@
 ## Creating a read only user
 
 ```
-REVOKE ALL ON DATABASE example_database FROM example_user;
-GRANT CONNECT ON DATABASE example_database TO example_user;
-GRANT SELECT ON ALL TABLES IN SCHEMA public TO example_user;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO example_user;
+REVOKE ALL ON DATABASE "db-name" FROM foo_read_only;
+GRANT CONNECT ON DATABASE "db-name" TO foo_read_only;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO foo_read_only;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO foo_read_only;
 ```
 
 ## Creating a read/write user for apps
 
 ```sql
--- revoke existing perm and reset
-REVOKE ALL ON DATABASE example_database FROM example_user;
+-- revoke existing perm and reset, NOTE: this must be run to clear existing perms
+REVOKE ALL ON DATABASE "db-name" FROM foo_read_write;
 
 -- allow connecting, allow read/write on current and future tables
-GRANT CONNECT ON DATABASE example_database TO example_user;
-GRANT INSERT, SELECT ON ALL TABLES IN SCHEMA public TO example_user;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT INSERT, SELECT ON TABLES TO example_user;
+GRANT CONNECT ON DATABASE "db-name" TO foo_read_write;
+GRANT INSERT, SELECT, UPDATE ON ALL TABLES IN SCHEMA public TO foo_read_write;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT INSERT, SELECT, UPDATE ON TABLES TO foo_read_write;
 
 -- allow create table/functions/trigger
-GRANT CREATE ON SCHEMA public TO example_user;
+GRANT CREATE ON SCHEMA public TO foo_read_write;
 ```
 
 ## Check privileges for a user
